@@ -1,4 +1,4 @@
-import {Paper, Card,Button, Table} from "@mui/material"
+import {Paper, Card,Button} from "@mui/material"
 import { useState,useEffect } from "react";
 import { DataGrid ,GridColDef,GridRowParams} from '@mui/x-data-grid';
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ type table ={
     NAME:string;
 }
 export default function Main(){
- const [code,setCode]=useState("");
+ 
  const [table,setTable]=useState<table[]>([])
  const nav = useNavigate();
  useEffect(()=>{
