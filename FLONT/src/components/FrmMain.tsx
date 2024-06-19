@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
-
+import BG from "./R.jfif.jpg";
 type table = {
   CODE: string;
   NAME: string;
@@ -44,7 +44,11 @@ export default function Main() {
   ];
 
   return (
-    <div>
+    <div style={{
+      backgroundImage: `url(${BG})`,
+      backgroundSize: 'cover', // 画像をカバー表示
+      backgroundPosition: 'center', // 画像を中央に配置
+      height: '100vh' }}>
       <motion.h1
         initial={{ x: "-100%" }}
         animate={{ x: 700 }}
