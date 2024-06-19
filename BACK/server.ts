@@ -20,8 +20,8 @@ app.use(bodyParser.json());
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'kitami0719',     // 自分のパスワード
-    database: 'jg'      // データベース
+    password: '',     // 自分のパスワード
+    database: ''      // データベース
 });
 
 // 接続エラー
