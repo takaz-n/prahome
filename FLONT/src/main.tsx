@@ -11,5 +11,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/sub"element={<Sub/>}/>
       </Routes>
     </Router>
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);
