@@ -16,7 +16,7 @@ export default function Main() {
 
   const fetchTable = async () => {
     try {
-      const res = await axios.get();
+      const res = await axios.get("/api/get/page");
       setTable(res.data);
       console.log("テーブル" + table);
     } catch (error) {
