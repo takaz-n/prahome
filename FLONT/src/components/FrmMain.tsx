@@ -4,6 +4,7 @@ import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 type table = {
   CODE: string;
   NAME: string;
@@ -39,10 +40,17 @@ export default function Main() {
   return (
     <div>
       <motion.h1
-        initial={{ x: "-100%" }}
-        animate={{ x: 700 }}
-        transition={{ duration: 0.5 }}
-        style={{ fontSize: "36px" ,color:"#248f59"}}
+      initial={{ x: "-100%" }}
+      animate={{ x: 700}} 
+      transition={{ duration: 1 }} 
+      whileHover={{ scale: 1.1}} 
+      whileTap={{ scale: 0.9 }}
+      style={{
+        fontSize: "40px",
+        color: "#248f59",
+        textShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)", 
+        display: "inline-block", 
+      }}
       >
         登録リスト
       </motion.h1>
@@ -51,10 +59,13 @@ export default function Main() {
           <motion.div
               initial={{ x: "-100%" }}
               animate={{ x: 200 }}
-              transition={{ duration: 0.5 }}>
+              transition={{ duration: 0.5 }}
+              whileHover={{ scale: 1.03 }} 
+              whileTap={{ scale: 0.95 }}
+               >
           <Card
             square={false}
-            elevation={15}
+            elevation={24}
             style={{ width: "100%", height: "700px" }}
           >
             <DataGrid
@@ -71,15 +82,19 @@ export default function Main() {
           <motion.div
            initial={{ opacity: 0 }}
            animate={{ opacity: 1 }}
-           transition={{ duration: 1.0}}>
+           transition={{ duration: 1.0}}
+           whileHover={{scale: 1.1 }} 
+           whileTap={{ scale: 0.9 }} >
           <Button
+          startIcon={<GroupAddIcon/>}
             onClick={btnClick}
             variant="contained"
             color="success"
             size="large"
-            sx={{ width: '200px', height: '60px' }} 
+            sx={{ width: '200px', height: '60px' }}
+            style={{textShadow: "2px 2px 5px rgba(0, 0, 0, 0.9)"}} 
           >
-            登録
+            新規登録
           </Button>
           </motion.div>
         </Grid>
