@@ -20,8 +20,8 @@ app.use(bodyParser.json());
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'kitami0719',     // 自分のパスワード
-    database: 'jg'      // データベース
+    password: '',     // 自分のパスワード
+    database: ''      // データベース
 });
 
 // 接続エラー
@@ -35,7 +35,7 @@ connection.connect((err) => {
 });
 // select
 app.get('/api/get/page', (req, res) => {
-    const strSql = 'SELECT ROW_NUMBER() OVER (ORDER BY CODE ASC) AS id, CODE, NAME FROM PAGE ORDER BY CODE ASC';
+    const strSql = 'SELECT CODE, NAME FROM PAGE ORDER BY CODE ASC';
     const code = req.query.code;
     if (code !== undefined) {
         console.log("コードが存在します");
