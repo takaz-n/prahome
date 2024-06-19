@@ -38,17 +38,18 @@ export default function Main() {
   return (
     <div>
       <Grid container spacing={3}>
-        <Grid item xs={8}>
-          <Card square={false} elevation={15}>
+        <Grid item xs={8} container justifyContent="center" alignItems="center">
+          <Card square={false} elevation={15} style={{ width: '100%', height: '400px' }}>
             <DataGrid
               rows={table}
               columns={columns}
               getRowId={(row) => row.CODE}
               onRowDoubleClick={wClick}
+              style={{ height: '100%', width: '100%' }}
             />
           </Card>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={4} container justifyContent="center" alignItems="center">
           <Button onClick={btnClick} variant="contained" color="success">
             登録
           </Button>
