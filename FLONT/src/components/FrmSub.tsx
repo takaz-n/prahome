@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent,useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   TextField,
@@ -21,12 +21,12 @@ const Sub: React.FC = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [textC, setTextC] = useState<string>(code||"");
   const [textN, setTextN] = useState<string>(name||"");
+ useEffect(()=>{ if (!textC) {
+  setIsEdit(true);
+} else {
+  setIsEdit(false);
+}},[textC]);
  
-  if (!textC) {
-    setIsEdit(true);
-  } else {
-    setIsEdit(false);
-  }
 
   const addDatas = async () => {
     await axios
