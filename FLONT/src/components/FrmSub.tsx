@@ -18,6 +18,7 @@ const Sub: React.FC = () => {
   const navigate = useNavigate();
   const { register, handleSubmit, reset } = useForm();
   const {code,name}=location.state || {};
+  console.log(code);
   const [isEdit, setIsEdit] = useState(false);
   const [textC, setTextC] = useState<string>(code||"");
   const [textN, setTextN] = useState<string>(name||"");
@@ -89,12 +90,14 @@ const Sub: React.FC = () => {
   return (
     <div>
       <TextField
+       value={textC}
         variant="outlined"
         onChange={(e) => {
           setTextC(e.target.value);
         }}
       />
       <TextField
+      value={textN}
         variant="outlined"
         onChange={(e) => {
           setTextN(e.target.value);

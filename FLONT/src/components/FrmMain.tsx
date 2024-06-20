@@ -23,7 +23,6 @@ export default function Main() {
     try {
       const res = await axios.get("http://localhost:3000/api/get/page");
       setTable(res.data.data);
-      console.log("テーブル" + table);
     } catch (error) {
       console.log(error);
     }
