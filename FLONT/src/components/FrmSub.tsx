@@ -1,4 +1,4 @@
-import { useEffect, useState, ChangeEvent } from "react";
+import { useState, ChangeEvent } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   TextField,
@@ -11,134 +11,73 @@ import {
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import zod from "zod";
-
-type Types = {
-  CODE: number;
-  NAME: string;
-};
-
-type AddTypes = {
-  CODE: number;
-  NAME: string;
-};
+import { Code } from "@mui/icons-material";
 
 const Sub: React.FC = () => {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const { register, handleSubmit, reset } = useForm<AddTypes>;
-    const [datas, setDatas] = useState<Types[]>([]);
-    const [isEdit, setIsEdit] = useState<Types | null>(null);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('http://localhost:5173/api/get/page');
-        const { datas } = response.data || { datas: [] };
-        setDatas(Array.isArray(datas) ? datas : []);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setDatas([]); // 空の配列をセット
-      }
-    };
-
-    fetchData();
-  }, []);
-     
-  useEffect(() => {
-    if (location.state) {
-      const { CODE } = location.state as AddTypes;
-      handleGet(CODE); // サブ画面に来た時点でデータベースに同じコードがあるか確認
-    }
-  }, [location.state, reset, datas]);
-
-  const handleGet = async (CODE: number) => {
-    try {
-      const response = await axios.get(`http://localhost:8000/get/Sub/${CODE}`);
-      if (response.data.datas.length > 0) {
-        const { NAME } = response.data.datas[0];
-        reset({ CODE: Number(CODE), NAME });
-        setIsEdit({ CODE: Number(CODE), NAME }); // 編集モードにする
-      } else {
-        reset({ CODE: Number(CODE), NAME: "" });
-        setIsEdit(null); // 新規追加モードにする
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  const addDatas = async (data: AddTypes) => {
-    const { CODE, NAME } = data;
-    await axios
-      .post("http://localhost:8000/add", {
-        data: { CODE, NAME },
-      })
-      .then((response) => {
-        const newDatas = response.data;
-        setDatas((prevDatas) => [...prevDatas, newDatas]);
-        alert("追加が成功しました");
-        navigate('/');
-      })
-      .catch((error) => {
-        console.log(error);
-         alert("追加が失敗しました");
-      });
-  };
-
-  const editDatas = async (data: AddTypes) => {
-    const { CODE, NAME } = data;
-    await axios
-      .put("http://localhost:8000/update", {
-        data: { CODE, NAME },
-      })
-      .then((response) => {
-        const updatedBumon = response.data;
-        const newDatas = datas.map((arrayDatas) =>
-          arrayDatas.CODE === CODE ? updatedBumon : arrayDatas
-        );
-        setDatas(newDatas);
-        alert("更新が成功しました");
-        navigate('/');
-      })
-      .catch((error) => {
-        console.log(error);
-         alert("更新が失敗しました");
-      });
-  };
-
-  const deleteDatas = async (code: number) => {
-    await axios
-      .delete("http://localhost:8000/delete", {
-        data: { CODE },
-      })
-      .then(() => {
-        const newDatas = datas.filter((bumon) => bumon.CODE !== code);
-        setBumons(newBumons);
-        alert("削除が成功しました");
-        navigate('/');
-      })
-      .catch((error) => {
-        console.log(error);
-        alert("削除が失敗しました");
-      });
-  };
   const location = useLocation();
   const navigate = useNavigate();
-  const { register, handleSubmit, reset } = useForm<AddTypes>;
+  const { register, handleSubmit, reset } = useForm();
 
-  const [show, setShow] = useState(false);
-  const [password, setPassword] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [textC, setTextC] = useState<string>("");
+  const [textN, setTextN] = useState<string>("");
+
+  if (!textC) {
+    setIsEdit(true);
+  } else {
+    setIsEdit(false);
+  }
+
+  const addDatas = async () => {
+    await axios
+      .post("http://localhost:3000/api/post/page", {
+        data: { textC, textN },
+      })
+
+      .catch((error) => {
+        console.log(error);
+        alert("追加が失敗しました");
+      });
+  };
+
+  const editDatas = async () => {
+    try {
+      await axios.put("http://localhost:3000/api/put/page", {
+        data: { textC, textN },
+      });
+      alert("更新が成功しました");
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      alert("更新が失敗しました");
+    }
+  };
+
+  const deleteDatas = async () => {
+    try {
+      await axios.delete("http://localhost:3000/api/delete/page", {
+        data: { textC },
+      });
+    } catch (error) {
+      console.log(error);
+      alert("削除が失敗しました");
+    }
+  };
+
+  const [show, setShow] = useState(false); //パスワード入力画面表示の有無
+  const [password, setPassword] = useState(""); //入力されたパスワードの値を記憶
+  const [isOK, setisOK] = useState(false); //パスワードが合致してるかどうか
 
   const handlePasswordSubmit = async () => {
     try {
       const response = await axios.post("/api/page/pass", { password });
       if (response.data.success) {
-        setIsAuthenticated(true);
+        setisOK(true);
         // 削除処理をここに追加
+        deleteDatas();
         console.log("認証成功");
       } else {
-        setIsAuthenticated(false);
+        setisOK(false);
         console.log("認証失敗");
       }
     } catch (error) {
@@ -149,6 +88,23 @@ const Sub: React.FC = () => {
 
   return (
     <div>
+      <TextField
+        variant="outlined"
+        onChange={(e) => {
+          setTextC(e.target.value);
+        }}
+      />
+      <TextField
+        variant="outlined"
+        onChange={(e) => {
+          setTextN(e.target.value);
+        }}
+      />
+      <Button onClick={handleSubmit(isEdit ? addDatas : editDatas)}>
+        {isEdit ? "登録" : "更新"}
+      </Button>
+      <Button>戻る</Button>
+
       <Button
         variant="contained"
         color="secondary"
@@ -174,7 +130,11 @@ const Sub: React.FC = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setShow(false)} color="primary">
+          <Button
+            startIcon={<Code />}
+            onClick={() => setShow(false)}
+            color="primary"
+          >
             キャンセル
           </Button>
           <Button onClick={handlePasswordSubmit} color="primary">
@@ -183,12 +143,12 @@ const Sub: React.FC = () => {
         </DialogActions>
       </Dialog>
 
-      {isAuthenticated && (
+      {isOK && (
         <div>
           <p>削除が認証されました。必要な削除処理をここで実行します。</p>
-          {/* 削除処理の内容を追加 */}
         </div>
       )}
     </div>
   );
 };
+export default Sub;
