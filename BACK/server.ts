@@ -65,9 +65,9 @@ app.get('/api/get/page', (req, res) => {
     );
 });
 // Post
-app.post('/api/post/page', (req, res) => {
-    console.log(req.body);
-    const {code, name} = req.body;
+app.post('/api/page/pass', (req, res) => {
+    console.log(req.body.data);
+    const {code, name} = req.body.data;
     console.log(`code=${code}:name=${name}`);
     const strSql = 'INSERT INTO PAGE(CODE, NAME) SELECT ?, ? WHERE NOT EXISTS (SELECT 1 FROM PAGE WHERE CODE = ?)';
     connection.query(strSql, [code, name, code], (error, result) => {
@@ -104,7 +104,7 @@ app.delete('/api/delete/page', (req, res) => {
 // Update
 app.put('/api/put/page', (req, res) => {
     console.log(req.body);
-    const {code, name} = req.body;
+    const {code, name} = req.body.data;
     console.log(`code=${code}:name=${name}`);
     const strSql = 'UPDATE PAGE SET NAME = ? WHERE CODE = ?';
     connection.query(strSql, [name, code], (error, results) => {
