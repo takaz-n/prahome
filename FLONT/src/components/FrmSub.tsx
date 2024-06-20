@@ -95,6 +95,7 @@ const Sub: React.FC = () => {
         onChange={(e) => {
           setTextC(e.target.value);
         }}
+        disabled={!!isEdit}
       />
       <TextField
       value={textN}
@@ -102,6 +103,7 @@ const Sub: React.FC = () => {
         onChange={(e) => {
           setTextN(e.target.value);
         }}
+        disabled={!!isEdit}
       />
       <Button onClick={handleSubmit(isEdit ? addDatas : editDatas)}>
         {isEdit ? "登録" : "更新"}
