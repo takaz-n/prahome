@@ -19,14 +19,10 @@ const Sub: React.FC = () => {
   const { register, handleSubmit, reset } = useForm();
   const {code,name}=location.state || {};
   console.log(code);
-  const [isEdit, setIsEdit] = useState(false);
   const [textC, setTextC] = useState<string>(code||"");
   const [textN, setTextN] = useState<string>(name||"");
- useEffect(()=>{ if (!textC) {
-  setIsEdit(true);
-} else {
-  setIsEdit(false);
-}},[textC]);
+  const isEdit = !textC; 
+
  
 
   const addDatas = async () => {
