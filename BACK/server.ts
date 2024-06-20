@@ -33,8 +33,8 @@ const chkPas = (planePas: string): boolean => {
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'MySQL-@NT1122',     // 自分のパスワード
-    database: 'jg'      // データベース
+    password: '',     // 自分のパスワード
+    database: ''      // データベース
 });
 
 // 接続エラー
