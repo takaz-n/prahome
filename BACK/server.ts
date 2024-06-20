@@ -2,6 +2,10 @@ import express from "express";
 import mysql from "mysql2";
 import cors from "cors";
 import bodyParser from "body-parser";
+import { genSaltSync, hashSync } from "bcrypt";
+
+const hash = "2b$10$9ST8eb7uGiztE3BSft2Bg.cX7lCoJ50onLEOx.nTDU5JWRsBgfhG6";
+console.log(hash);
 
 const app = express();
 
@@ -57,8 +61,9 @@ app.post('/api/post/page', (req, res) => {
     console.log(req.body);
     const {code, name} = req.body;
     console.log(`code=${code}:name=${name}`);
-    const strSql = 'INSERT INTO PAGE(CODE, NAME) VALUES(?, ?)';
-    connection.query(strSql, [code, name], (error, result) => {
+    const strSql = 'INSERT INTO PAGE(CODE, NAME) SELECT ?, ? WHERE NOT EXISTS (SELECT 1 FROM PAGE WHERE CODE = ?)';
+    connection.query(strSql, [code, name, code], (error, result) => {
+        console.log(result);
         if (error) {
             res.status(500).json({message: error.message});
         } else {
@@ -73,6 +78,7 @@ app.delete('/api/delete/page', (req, res) => {
     console.log(`code=${code}`);
     const strSql = 'DELETE FROM PAGE WHERE CODE = ?';
     connection.query(strSql, [code], (error, results) => {
+        console.log(results);
         if (error) {
             res.status(500).json({message: error.message});
         } else {
