@@ -21,12 +21,10 @@ const chkPas = (planePas: string): boolean => {
     const hash = "$2b$10$LhAeGCKomrZhdhi1AfFVFeFTmTO.BB8FHW9PyvNA4qnari.aLOD2u";
     const solt = "$2b$10$LhAeGCKomrZhdhi1AfFVFe";
     if (hashSync(planePas, solt) === hash) {
-
         return true;
     } else {
         return false;
     }
-       return true;
 }
 // 接続情報
 const connection = mysql.createConnection({
