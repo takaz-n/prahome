@@ -3,7 +3,6 @@ import mysql from "mysql2";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { genSaltSync, hashSync } from "bcrypt";
-import bcrypt from 'bcrypt';
 const app = express();
 
 const port = 3000;
