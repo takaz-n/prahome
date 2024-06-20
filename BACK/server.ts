@@ -3,7 +3,7 @@ import mysql from "mysql2";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { genSaltSync, hashSync } from "bcrypt";
-
+import bcrypt from 'bcrypt';
 const app = express();
 
 const port = 3000;
@@ -22,6 +22,7 @@ const chkPas = (planePas: string): boolean => {
     const hash = "$2b$10$LhAeGCKomrZhdhi1AfFVFeFTmTO.BB8FHW9PyvNA4qnari.aLOD2u";
     const solt = "$2b$10$LhAeGCKomrZhdhi1AfFVFe";
     if (hashSync(planePas, solt) === hash) {
+
         return true;
     } else {
         return false;
@@ -32,8 +33,8 @@ const chkPas = (planePas: string): boolean => {
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '',     // 自分のパスワード
-    database: ''      // データベース
+    password: 'MySQL-@NT1122',     // 自分のパスワード
+    database: 'jg'      // データベース
 });
 
 // 接続エラー
@@ -67,7 +68,7 @@ app.get('/api/get/page', (req, res) => {
 });
 // Post
 app.post('/api/post/page', (req, res) => {
-    console.log(req.body.data);
+    console.log(req.body);
     const {code, name} = req.body.data;
     console.log(`code=${code}:name=${name}`);
     const strSql = 'INSERT INTO PAGE(CODE, NAME) SELECT ?, ? WHERE NOT EXISTS (SELECT 1 FROM PAGE WHERE CODE = ?)';
@@ -82,15 +83,15 @@ app.post('/api/post/page', (req, res) => {
 });
 // パスワードチェック
 app.post('/api/page/pass', (req, res) => {
-    console.log(req.body);
-    const {password} = req.body;
+    console.log(req.body.data);
+    const {password} = req.body.data;
     const success = chkPas(password)
     return res.status(200).json({success: success});
 });
 // Delete
 app.delete('/api/delete/page', (req, res) => {
     console.log(req.body);
-    const {code} = req.body
+    const {code} = req.body;
     console.log(`code=${code}`);
     const strSql = 'DELETE FROM PAGE WHERE CODE = ?';
     connection.query(strSql, [code], (error, results) => {
