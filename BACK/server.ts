@@ -4,9 +4,6 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import { genSaltSync, hashSync } from "bcrypt";
 
-const hash = "2b$10$9ST8eb7uGiztE3BSft2Bg.cX7lCoJ50onLEOx.nTDU5JWRsBgfhG6";
-console.log(hash);
-
 const app = express();
 
 const port = 3000;
@@ -20,12 +17,22 @@ app.use(cors({
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+// パスワードが一致するか確かめる
+const chkPas = (planePas: string): boolean => {
+    const hashPas = "$2b$10$8ZisiEndNJzRaF9T82an7uBZnvv9KpKKBdQcNKfLbmIJmQ5bx8AZy";
+    const salt = genSaltSync(10);
+    if (hashSync(planePas, salt) === hashPas) {
+        return true;
+    } else {
+        return false;
+    }
+}
 // 接続情報
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '',     // 自分のパスワード
-    database: ''      // データベース
+    password: 'kitami0719',     // 自分のパスワード
+    database: 'jg'      // データベース
 });
 
 // 接続エラー
@@ -37,6 +44,7 @@ connection.connect((err) => {
         console.log('success');
     }
 });
+
 // select
 app.get('/api/get/page', (req, res) => {
     const strSql = 'SELECT CODE, NAME FROM PAGE ORDER BY CODE ASC';
@@ -70,6 +78,13 @@ app.post('/api/post/page', (req, res) => {
             res.status(200).send({data: result});
         }
     });
+});
+// パスワードチェック
+app.post('/api/page/pass', (req, res) => {
+    console.log(req.body);
+    const {password} = req.body;
+    const success = chkPas(password)
+    return res.status(200).json({success: success});
 });
 // Delete
 app.delete('/api/delete/page', (req, res) => {
