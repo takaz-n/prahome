@@ -40,7 +40,7 @@ const Sub: React.FC = () => {
   const editDatas = async () => {
     try {
       await axios.put("http://localhost:3000/api/put/page", {
-        data: { textC, textN },
+        data: {code : textC, name : textN },
       });
       alert("更新が成功しました");
       navigate("/");
@@ -89,15 +89,17 @@ const Sub: React.FC = () => {
        value={textC}
         variant="outlined"
         onChange={(e) => {
-          setTextC(e.target.value);
+          setTextC(e.target.value)
+          
         }}
-        disabled={!isEdit}
+        disabled={!!isEdit}
       />
       <TextField
       value={textN}
         variant="outlined"
         onChange={(e) => {
           setTextN(e.target.value);
+          console.log(textN);
         }}
         
       />
