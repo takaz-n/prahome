@@ -17,11 +17,11 @@ const Sub: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { register, handleSubmit, reset } = useForm();
-
+  const {code,name}=location.state || {};
   const [isEdit, setIsEdit] = useState(false);
-  const [textC, setTextC] = useState<string>("");
-  const [textN, setTextN] = useState<string>("");
-
+  const [textC, setTextC] = useState<string>(code||"");
+  const [textN, setTextN] = useState<string>(name||"");
+ 
   if (!textC) {
     setIsEdit(true);
   } else {
