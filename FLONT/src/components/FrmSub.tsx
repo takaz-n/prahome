@@ -107,9 +107,10 @@ const Sub: React.FC = () => {
         {isEdit ? "登録" : "更新"}
       </Button>
       <Button>戻る</Button>
-
+      {isEdit &&(
       <Button
-        variant="contained"
+     
+      variant="contained"
         color="secondary"
         onClick={() => {
           setShow(true);
@@ -117,7 +118,7 @@ const Sub: React.FC = () => {
       >
         削除
       </Button>
-
+)}
       <Dialog open={show} onClose={() => setShow(false)}>
         <DialogTitle>パスワードを入力してください</DialogTitle>
         <DialogContent>
