@@ -105,7 +105,7 @@ const Sub: React.FC = () => {
         {isEdit ? "登録" : "更新"}
       </Button>
       <Button>戻る</Button>
-      {isEdit &&(
+      {!isEdit &&(
       <Button
      
       variant="contained"
