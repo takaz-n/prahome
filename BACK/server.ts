@@ -19,13 +19,14 @@ app.use(bodyParser.json());
 
 // パスワードが一致するか確かめる
 const chkPas = (planePas: string): boolean => {
-    const hashPas = "$2b$10$8ZisiEndNJzRaF9T82an7uBZnvv9KpKKBdQcNKfLbmIJmQ5bx8AZy";
-    const salt = genSaltSync(10);
-    if (hashSync(planePas, salt) === hashPas) {
+    const hash = "$2b$10$LhAeGCKomrZhdhi1AfFVFeFTmTO.BB8FHW9PyvNA4qnari.aLOD2u";
+    const solt = "$2b$10$LhAeGCKomrZhdhi1AfFVFe";
+    if (hashSync(planePas, solt) === hash) {
         return true;
     } else {
         return false;
     }
+       return true;
 }
 // 接続情報
 const connection = mysql.createConnection({
@@ -65,7 +66,7 @@ app.get('/api/get/page', (req, res) => {
     );
 });
 // Post
-app.post('/api/page/pass', (req, res) => {
+app.post('/api/post/page', (req, res) => {
     console.log(req.body.data);
     const {code, name} = req.body.data;
     console.log(`code=${code}:name=${name}`);
