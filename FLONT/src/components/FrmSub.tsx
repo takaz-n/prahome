@@ -40,7 +40,6 @@ const Sub: React.FC = () => {
       console.log(response.data.data.affectedRows)
        if(response.data.data.affectedRows === 0){
         alert("登録が失敗しました");
-        navigate("/");
       }else{
         alert("登録が成功しました");
         navigate("/");
