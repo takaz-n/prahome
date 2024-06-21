@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { Code } from "@mui/icons-material";
+import CloseIcon from '@mui/icons-material/Close';
 import nsx from "./f80ee097b517eaa8266cd443a7e9087e.jpg";
 import legend from "./911aa11ea7a993d341ebe66533d020c0.jpg";
 import{motion} from "framer-motion";
@@ -243,7 +243,7 @@ const Sub: React.FC = () => {
         </DialogContent>
         <DialogActions>
           <Button
-            startIcon={<Code />}
+            startIcon={<CloseIcon />}
             onClick={() => setShow(false)}
             color="primary"
           >
