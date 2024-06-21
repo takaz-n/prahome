@@ -43,7 +43,11 @@ export default function Main() {
   ];
 
   return (
-    <div style={{
+    <motion.div 
+    initial={{opacity:0}}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 2 }}
+    style={{
       backgroundImage: `url(${BG})`,
       backgroundSize: 'cover', // 画像をカバー表示
       backgroundPosition: 'center', // 画像を中央に配置
@@ -114,6 +118,6 @@ export default function Main() {
           </motion.div>
         </Grid>
       </Grid>
-    </div>
+    </motion.div>
   );
 }
