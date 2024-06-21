@@ -31,6 +31,9 @@ const Sub: React.FC = () => {
     }
   }, [textC]);
   const addDatas = async () => {
+    if(!textC || !textN){
+      alert("コードまたは名前を入力してください");
+      return;}
     try {
       await axios.post("http://localhost:3000/api/post/page", {
         data: { code: textC, name: textN },
@@ -44,6 +47,9 @@ const Sub: React.FC = () => {
   };
 
   const editDatas = async () => {
+    if(!textC || !textN){
+      alert("コードまたは名前を入力してください");
+      return;}
     try {
       await axios.put("http://localhost:3000/api/put/page", {
         data: { code: textC, name: textN },
@@ -112,7 +118,7 @@ const Sub: React.FC = () => {
     <div>
       <Grid item xs={11} container direction="column"  alignItems="center" justifyContent="center" style={{marginTop:"300px"}} >
       <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
-      <TextField value={textC} variant="outlined" onChange={checksetC} />
+      <TextField value={textC} variant="outlined" onChange={checksetC}  disabled={!isEdit} />
       <Box sx={{ marginBottom: 5 }} />
       <TextField value={textN} variant="outlined" onChange={checksetN} />
       </Box>
