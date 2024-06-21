@@ -1,11 +1,13 @@
-import { Grid, Card, Button } from "@mui/material";
+import { Grid, Card, Button,Switch } from "@mui/material";
 import { useState, useEffect } from "react";
 import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
-import BG from "./R.jfif.jpg";
+import BG from "./0f0f20371e969a8406188c01492f440b8d563eff.jpg";
+import BG2 from "./landmark_light.jpg";
+
 type table = {
   CODE: string;
   NAME: string;
@@ -13,8 +15,11 @@ type table = {
 
 export default function Main() {
   const [table, setTable] = useState<table[]>([]);
+  const[pic , setpic] =useState(BG);
   const nav = useNavigate();
-
+  const headingColor = pic===BG ? '#248f59' : '#c40e8e';
+  const bgcolor = pic===BG ? '#e0ffff':'#fffff0';
+  const btncolor = pic===BG ? "success"   : "secondary";
   useEffect(() => {
     fetchTable();
   }, []);
@@ -41,14 +46,15 @@ export default function Main() {
     { field: "CODE", headerName: "コード (ダブルクリックで編集画面へ)", width: 300 },
     { field: "NAME", headerName: "名前", width: 400 },
   ];
-
+  const darkMode=()=>{if(pic===BG){setpic(BG2)}
+else{setpic(BG)}}
   return (
     <motion.div 
     initial={{opacity:0}}
     animate={{ opacity: 1 }}
     transition={{ duration: 2 }}
     style={{
-      backgroundImage: `url(${BG})`,
+      backgroundImage: `url(${pic})`,
       backgroundSize: 'cover', // 画像をカバー表示
       backgroundPosition: 'center', // 画像を中央に配置
       height: '100vh' }}>
@@ -60,7 +66,7 @@ export default function Main() {
         whileTap={{ scale: 0.9 }}
         style={{
           fontSize: "40px",
-          color: "#248f59",
+          color: headingColor,
           textShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)",
           display: "inline-block",
         }}
@@ -89,8 +95,8 @@ export default function Main() {
                 style={{
                   height: "100%",
                   width: "100%",
-                  color: "#248f59",
-                  backgroundColor: "#e0ffff",
+                  color: headingColor,
+                  backgroundColor: bgcolor,
                 }}
               />
             </Card>
@@ -108,15 +114,17 @@ export default function Main() {
               startIcon={<GroupAddIcon />}
               onClick={btnClick}
               variant="contained"
-              color="success"
+              color = {btncolor}
               size="large"
               sx={{ width: "200px", height: "60px" }}
               style={{ textShadow: "2px 2px 5px rgba(0, 0, 0, 0.9)" }}
             >
               新規登録
             </Button>
+            <Switch color="warning" onChange={darkMode}/>
           </motion.div>
         </Grid>
+    
       </Grid>
     </motion.div>
   );
