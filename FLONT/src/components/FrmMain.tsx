@@ -1,4 +1,4 @@
-import { Grid, Card, Button,Switch } from "@mui/material";
+import { Grid, Card, Button, Switch, Tooltip } from "@mui/material";
 import { useState, useEffect } from "react";
 import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
@@ -7,8 +7,8 @@ import axios from "axios";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import BG from "./0f0f20371e969a8406188c01492f440b8d563eff.jpg";
 import BG2 from "./landmark_light.jpg";
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
 type table = {
   CODE: string;
   NAME: string;
@@ -16,11 +16,11 @@ type table = {
 
 export default function Main() {
   const [table, setTable] = useState<table[]>([]);
-  const[pic , setpic] =useState(BG);
+  const [pic, setpic] = useState(BG);
   const nav = useNavigate();
-  const headingColor = pic===BG ? '#248f59' : '#c40e8e';
-  const bgcolor = pic===BG ? '#e0ffff':'#fffff0';
-  const btncolor = pic===BG ? "success"   : "secondary";
+  const headingColor = pic === BG ? "#248f59" : "#c40e8e";
+  const bgcolor = pic === BG ? "#e0ffff" : "#fffff0";
+  const btncolor = pic === BG ? "success" : "secondary";
   useEffect(() => {
     fetchTable();
   }, []);
@@ -44,21 +44,32 @@ export default function Main() {
   };
 
   const columns: GridColDef[] = [
-    { field: "CODE", headerName: "コード (ダブルクリックで編集画面へ)", width: 300 },
+    {
+      field: "CODE",
+      headerName: "コード (ダブルクリックで編集画面へ)",
+      width: 300,
+    },
     { field: "NAME", headerName: "名前", width: 400 },
   ];
-  const darkMode=()=>{if(pic===BG){setpic(BG2)}
-else{setpic(BG)}}
+  const darkMode = () => {
+    if (pic === BG) {
+      setpic(BG2);
+    } else {
+      setpic(BG);
+    }
+  };
   return (
-    <motion.div 
-    initial={{opacity:0}}
-    animate={{ opacity: 1 }}
-    transition={{ duration: 2 }}
-    style={{
-      backgroundImage: `url(${pic})`,
-      backgroundSize: 'cover', // 画像をカバー表示
-      backgroundPosition: 'center', // 画像を中央に配置
-      height: '100vh' }}>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 2 }}
+      style={{
+        backgroundImage: `url(${pic})`,
+        backgroundSize: "cover", // 画像をカバー表示
+        backgroundPosition: "center", // 画像を中央に配置
+        height: "100vh",
+      }}
+    >
       <motion.h1
         initial={{ x: "-100%" }}
         animate={{ x: 700 }}
@@ -111,22 +122,32 @@ else{setpic(BG)}}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
-            <Button
-              startIcon={<GroupAddIcon />}
-              onClick={btnClick}
-              variant="contained"
-              color = {btncolor}
-              size="large"
-              sx={{ width: "200px", height: "60px" }}
-              style={{ textShadow: "2px 2px 5px rgba(0, 0, 0, 0.9)" }}
-            >
-              新規登録
-            </Button>
-            <Switch color="warning" onChange={darkMode} checkedIcon={<LightModeIcon  />}
-            icon={<DarkModeIcon/>}/>
+            <Tooltip title="新規登録画面に移動します">
+              <Button
+                startIcon={<GroupAddIcon />}
+                onClick={btnClick}
+                variant="contained"
+                color={btncolor}
+                size="large"
+                sx={{ width: "200px", height: "60px" }}
+                style={{
+                  textShadow: "2px 2px 5px rgba(0, 0, 0, 0.9)",
+                  marginRight: "20px",
+                }}
+              >
+                新規登録
+              </Button>
+            </Tooltip>
+            <Tooltip title="ダークモードへの切り替え">
+              <Switch
+                color="warning"
+                onChange={darkMode}
+                checkedIcon={<LightModeIcon />}
+                icon={<DarkModeIcon />}
+              />
+            </Tooltip>
           </motion.div>
         </Grid>
-    
       </Grid>
     </motion.div>
   );
