@@ -20,7 +20,7 @@ const Sub: React.FC = () => {
   const { handleSubmit } = useForm();
   const { code, name } = location.state || {};
 
-  const [textC, setTextC] = useState<string>(code || "");
+  let [textC, setTextC] = useState<string>(code || "");
   const [textN, setTextN] = useState<string>(name || "");
   const [isEdit, setIsEdit] = useState(false);
   useEffect(() => {
@@ -34,6 +34,9 @@ const Sub: React.FC = () => {
     if(!textC || !textN){
       alert("コードまたは名前を入力してください");
       return;}
+      while(textC.length<4){
+        textC= "0"+textC;
+      }
       const response = await axios.post("http://localhost:3000/api/post/page", {
         data: { code: textC, name: textN },
       });
