@@ -7,34 +7,40 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
+  Box,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import zod, { boolean } from "zod";
 import { Code } from "@mui/icons-material";
 
 const Sub: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { register, handleSubmit, reset } = useForm();
+  const { handleSubmit } = useForm();
   const { code, name } = location.state || {};
 
   const [textC, setTextC] = useState<string>(code || "");
   const [textN, setTextN] = useState<string>(name || "");
   const [isEdit, setIsEdit] = useState(false);
-
+  useEffect(() => {
+    if (textC === code) {
+      setIsEdit(false);
+    } else {
+      setIsEdit(true);
+    }
+  }, [textC]);
   const addDatas = async () => {
-    try{await axios
-      .post("http://localhost:3000/api/post/page", {
+    try {
+      await axios.post("http://localhost:3000/api/post/page", {
         data: { code: textC, name: textN },
-      })
+      });
       alert("登録が成功しました");
-      navigate("/");}
-
-      catch(error)  {
-        console.log(error);
-        alert("追加が失敗しました");
-      };
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+      alert("追加が失敗しました");
+    }
   };
 
   const editDatas = async () => {
@@ -53,7 +59,7 @@ const Sub: React.FC = () => {
   const deleteDatas = async () => {
     try {
       await axios.delete("http://localhost:3000/api/delete/page", {
-        data: { code:textC },
+        data: { code: textC },
       });
       alert("削除が成功しました");
       navigate("/");
@@ -63,14 +69,15 @@ const Sub: React.FC = () => {
     }
   };
 
-
   const [show, setShow] = useState(false); //パスワード入力画面表示の有無
   const [password, setPassword] = useState(""); //入力されたパスワードの値を記憶
   const [isOK, setisOK] = useState(false); //パスワードが合致してるかどうか
 
   const handlePasswordSubmit = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/api/page/pass", {data:{password}});
+      const response = await axios.post("http://localhost:3000/api/page/pass", {
+        data: { password },
+      });
       if (response.data.success) {
         setisOK(true);
         // 削除処理をここに追加
@@ -85,22 +92,36 @@ const Sub: React.FC = () => {
     }
     setShow(false);
   };
-
+  const checksetC = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // 正しい正規表現を使用
+    if (/^\d{0,4}$/.test(value)) {
+      setTextC(value);
+    }
+  };
+  const checksetN = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (/^.{0,30}$/.test(value)) {
+      setTextN(value);
+    }
+  };
+  const back = () => {
+    navigate("/");
+  };
   return (
     <div>
-      <TextField value={textC} variant="outlined"  onChange={(e)=>{setTextC(e.target.value)}}/>
-      <TextField
-        value={textN}
-        variant="outlined"
-        onChange={(e) => {
-          setTextN(e.target.value);
-          console.log(textN);
-        }}
-      />
-      <Button onClick={handleSubmit(isEdit ? addDatas : editDatas)}>
+      <Grid item xs={11} container direction="column"  alignItems="center" justifyContent="center" style={{marginTop:"300px"}} >
+      <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
+      <TextField value={textC} variant="outlined" onChange={checksetC} />
+      <Box sx={{ marginBottom: 5 }} />
+      <TextField value={textN} variant="outlined" onChange={checksetN} />
+      </Box>
+
+      <Box display="flex" alignItems="center" justifyContent="center" style={{marginLeft:"150px", marginTop:"30px"}} >
+      <Button variant="contained" size="large" onClick={back} style={{marginRight:"250px"}} >戻る</Button>
+      <Button variant ="contained" size="large" onClick={handleSubmit(isEdit ? addDatas : editDatas)}>
         {isEdit ? "登録" : "更新"}
       </Button>
-      <Button>戻る</Button>
       {!isEdit && (
         <Button
           variant="contained"
@@ -108,10 +129,14 @@ const Sub: React.FC = () => {
           onClick={() => {
             setShow(true);
           }}
+          style={{marginLeft:"50px"}}
+          size="large"
         >
           削除
         </Button>
       )}
+       </Box>
+      </Grid>
       <Dialog open={show} onClose={() => setShow(false)}>
         <DialogTitle>パスワードを入力してください</DialogTitle>
         <DialogContent>
@@ -142,7 +167,7 @@ const Sub: React.FC = () => {
 
       {isOK && (
         <div>
-          <p>削除が認証されました。必要な削除処理をここで実行します。</p>
+          <p>削除が認証されました</p>
         </div>
       )}
     </div>
