@@ -7,7 +7,8 @@ import axios from "axios";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import BG from "./0f0f20371e969a8406188c01492f440b8d563eff.jpg";
 import BG2 from "./landmark_light.jpg";
-
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
 type table = {
   CODE: string;
   NAME: string;
@@ -121,7 +122,8 @@ else{setpic(BG)}}
             >
               新規登録
             </Button>
-            <Switch color="warning" onChange={darkMode}/>
+            <Switch color="warning" onChange={darkMode} checkedIcon={<LightModeIcon  />}
+            icon={<DarkModeIcon/>}/>
           </motion.div>
         </Grid>
     
