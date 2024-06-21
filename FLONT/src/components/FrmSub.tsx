@@ -34,17 +34,18 @@ const Sub: React.FC = () => {
     if(!textC || !textN){
       alert("コードまたは名前を入力してください");
       return;}
-    try {
-      await axios.post("http://localhost:3000/api/post/page", {
+      const response = await axios.post("http://localhost:3000/api/post/page", {
         data: { code: textC, name: textN },
       });
-      alert("登録が成功しました");
-      navigate("/");
-    } catch (error) {
-      console.log(error);
-      alert("追加が失敗しました");
-    }
-  };
+      console.log(response.data.data.affectedRows)
+       if(response.data.data.affectedRows === 0){
+        alert("登録が失敗しました");
+        navigate("/");
+      }else{
+        alert("登録が成功しました");
+        navigate("/");
+      }
+    } 
 
   const editDatas = async () => {
     if(!textC || !textN){
