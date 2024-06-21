@@ -87,12 +87,11 @@ const Sub: React.FC = () => {
       });
       if (response.data.success) {
         setisOK(true);
-       alert("認証成功！");
+        // 削除処理をここに追加
         deleteDatas();
         console.log("認証成功");
       } else {
         setisOK(false);
-        alert("認証に失敗しました")
         console.log("認証失敗");
       }
     } catch (error) {
