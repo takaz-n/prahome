@@ -38,7 +38,7 @@ export default function Main() {
   };
 
   const columns: GridColDef[] = [
-    { field: "CODE", headerName: "コード", width: 200 },
+    { field: "CODE", headerName: "コード (ダブルクリックで編集画面へ)", width: 300 },
     { field: "NAME", headerName: "名前", width: 400 },
   ];
 
