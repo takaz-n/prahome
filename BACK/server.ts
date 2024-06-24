@@ -47,10 +47,6 @@ connection.connect((err) => {
 // select
 app.get('/api/get/page', (req, res) => {
     const strSql = 'SELECT CODE, NAME FROM PAGE ORDER BY CODE ASC';
-    const code = req.query.code;
-    if (code !== undefined) {
-        console.log("コードが存在します");
-    }
     connection.query(
         strSql,
         (error, results) => {
