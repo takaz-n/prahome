@@ -34,9 +34,9 @@ const Sub: React.FC = () => {
   
   useEffect(() => { //textCodeに値が存在していた場合に更新処理をfalse
     if (textCode === code) {
-      setIsEdit(false);
-    } else {
       setIsEdit(true);
+    } else {
+      setIsEdit(false);
     }
   }, [textCode]);
   const addDatas = async () => { //textCodeまたはtextNameの入力フィールドが空だった場合に処理を中止する
@@ -182,7 +182,7 @@ const Sub: React.FC = () => {
               value={textCode}
               variant="outlined"
               onChange={checkSetCode}
-              disabled={!isEdit}
+              disabled={isEdit}
               style={{
                 backgroundColor: "#ffffff",
                 width: "70px", // 幅を設定
@@ -222,12 +222,12 @@ const Sub: React.FC = () => {
             <Button
               variant="contained"
               size="large"
-              onClick={handleSubmit(isEdit ? addDatas : editDatas)}
+              onClick={handleSubmit(isEdit ? editDatas : addDatas )}
             >
-              {isEdit ? "登録" : "更新"}
+              {isEdit ? "更新" : "登録"}
             </Button>
 
-            {!isEdit && (
+            {isEdit && (
               <Button
                 variant="contained"
                 color="secondary"
